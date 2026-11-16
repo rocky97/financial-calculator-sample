@@ -42,12 +42,21 @@ npm install
 npm run dev       # the calculator at http://localhost:5173
 npm test          # vitest
 npm run typecheck
-npm run build     # static site in dist/
+npm run build     # static site in docs/ (served by GitHub Pages)
 ```
 
 ## Deploying to GitHub Pages
 
-`.github/workflows/deploy.yml` builds, tests and publishes on every push to `master`. One-time setup: in the repository on GitHub, **Settings → Pages → Build and deployment → Source: GitHub Actions**. The site then appears at `https://<user>.github.io/<repo>/`. `vite.config.ts` uses relative asset paths so the repository name doesn't matter.
+The site is served from the `docs/` folder on `master` (Settings → Pages → Source: **Deploy from a branch**, Branch: **master**, Folder: **/docs**). `docs/` is build output and is committed, so after any change:
+
+```
+npm test
+npm run build     # rewrites docs/
+git add docs && git commit
+git push
+```
+
+The site is then at `https://<user>.github.io/<repo>/`. `vite.config.ts` uses relative asset paths so the repository name doesn't matter, and `public/.nojekyll` stops Pages from running Jekyll over the build.
 
 ## Oracle order (PRD §7)
 
