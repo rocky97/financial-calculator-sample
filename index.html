@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Financial Calculator Emulator</title>
+    <link rel="stylesheet" href="/src/ui/style.css" />
+  </head>
+  <body>
+    <main class="stage">
+      <section class="calc" aria-label="Calculator">
+        <div class="lcd" id="lcd" role="status" aria-live="polite">
+          <div class="lcd-ind lcd-ind-top" id="ind-top"></div>
+          <div class="lcd-main" id="lcd-main">
+            <span class="lcd-label" id="lcd-label"></span>
+            <span class="lcd-value"><span id="lcd-value"></span><sup id="lcd-exp"></sup></span>
+          </div>
+          <div class="lcd-ind lcd-ind-bottom" id="ind-bottom"></div>
+        </div>
+        <div class="keypad" id="keypad"></div>
+      </section>
+
+      <aside class="panel">
+        <h2>Settings in effect</h2>
+        <p class="hint">Not shown on the real device's screen. P/Y and C/Y start at 1 here (a physical unit starts at 12). Change them with 2ND P/Y, 2ND BGN, 2ND FORMAT.</p>
+        <dl class="settings" id="settings" aria-live="polite"></dl>
+
+        <div class="panel-head">
+          <h2>Key log</h2>
+          <button type="button" class="link" id="log-clear">Clear</button>
+        </div>
+        <ol class="log" id="log" aria-label="Keys pressed"></ol>
+        <p class="notice" id="notice" role="alert" hidden></p>
+
+        <h2>Options</h2>
+        <label class="opt"><input type="checkbox" id="opt-large" /> Large display (projector)</label>
+        <label class="opt"><input type="checkbox" id="opt-limits" /> Device limits off (more than 24 cash flows)</label>
+        <button type="button" class="btn" id="opt-wipe">Clear saved data</button>
+
+        <h2>Keyboard</h2>
+        <dl class="keys">
+          <dt>0–9 . + − × ÷ ( ) =</dt><dd>as labelled</dd>
+          <dt>Enter</dt><dd>ENTER</dd>
+          <dt>Shift</dt><dd>2ND</dd>
+          <dt>Backspace</dt><dd>CE|C</dd>
+          <dt>Delete</dt><dd>→</dd>
+          <dt>↑ ↓</dt><dd>↑ ↓</dd>
+          <dt>c</dt><dd>CPT</dd>
+          <dt>Esc</dt><dd>QUIT</dd>
+          <dt>n i p m f</dt><dd>N I/Y PV PMT FV</dd>
+          <dt>^ %</dt><dd>yˣ %</dd>
+        </dl>
+      </aside>
+    </main>
+    <footer class="foot">
+      Not affiliated with, endorsed by, or connected to Texas Instruments. "BA II Plus" is a trademark of Texas
+      Instruments, used here only to identify the device being emulated.
+    </footer>
+    <script type="module" src="/src/ui/main.ts"></script>
+  </body>
+</html>

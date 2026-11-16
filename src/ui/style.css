@@ -1,0 +1,419 @@
+:root {
+  --bg: #e9e7e2;
+  --ink: #1f2328;
+  --muted: #5e6670;
+  --panel: #f7f6f3;
+  --line: #d4d1ca;
+  --body: #2a2d33;
+  --body-edge: #1b1d21;
+  --lcd: #c9d3c0;
+  --lcd-ink: #1d2419;
+  --lcd-dim: rgba(29, 36, 25, 0.13);
+  --key: #3a3e46;
+  --key-ink: #f2f2f2;
+  --digit: #e7e6e2;
+  --digit-ink: #1f2328;
+  --second: #e8b04b;
+  --second-ink: #2a1f05;
+  --cash: #4a6b8a;
+  --mem: #5c6a5a;
+  --sec-label: #e8b04b;
+  --focus: #6aa5ff;
+  --lcd-size: 2.4rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15171a;
+    --ink: #e6e6e6;
+    --muted: #9aa1aa;
+    --panel: #1e2125;
+    --line: #2f343a;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.stage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 28px 16px 12px;
+}
+
+/* ─── calculator body ─────────────────────────────────────────────────────── */
+
+.calc {
+  width: min(400px, 100%);
+  background: var(--body);
+  border: 1px solid var(--body-edge);
+  border-radius: 18px;
+  padding: 20px 18px 22px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.lcd {
+  background: var(--lcd);
+  color: var(--lcd-ink);
+  border-radius: 6px;
+  padding: 6px 12px 8px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
+  margin-bottom: 18px;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  user-select: none;
+}
+
+.lcd.off .lcd-main,
+.lcd.off .lcd-ind span {
+  visibility: hidden;
+}
+
+.lcd-ind {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  min-height: 1.1em;
+}
+
+.lcd-ind span {
+  color: var(--lcd-dim);
+}
+
+.lcd-ind span.on {
+  color: var(--lcd-ink);
+}
+
+.lcd-ind-bottom {
+  justify-content: flex-start;
+}
+
+.lcd-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: var(--lcd-size);
+  line-height: 1.15;
+  min-height: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.lcd-label {
+  font-size: 0.6em;
+}
+
+.lcd-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.lcd-value sup {
+  font-size: 0.5em;
+  margin-left: 0.3em;
+}
+
+/* ─── keys ───────────────────────────────────────────────────────────────── */
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px 10px;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.sec {
+  font-size: 0.62rem;
+  color: var(--sec-label);
+  text-align: center;
+  min-height: 1.15em;
+  white-space: nowrap;
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.key {
+  appearance: none;
+  border: 0;
+  border-radius: 7px;
+  height: 36px;
+  font: 600 0.9rem/1 system-ui, -apple-system, sans-serif;
+  background: var(--key);
+  color: var(--key-ink);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 60ms;
+}
+
+.key:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.g-digit,
+.g-clear {
+  background: var(--digit);
+  color: var(--digit-ink);
+  font-size: 1.05rem;
+}
+
+.g-second {
+  background: var(--second);
+  color: var(--second-ink);
+}
+
+.g-second.armed {
+  box-shadow: 0 0 0 2px #fff, 0 0 12px var(--second);
+}
+
+.g-cash {
+  background: var(--cash);
+}
+
+.g-mem {
+  background: var(--mem);
+}
+
+.key.flash {
+  animation: flash 260ms ease-out;
+}
+
+@keyframes flash {
+  from {
+    filter: brightness(1.6);
+  }
+  to {
+    filter: none;
+  }
+}
+
+/* ─── side panel ─────────────────────────────────────────────────────────── */
+
+.panel {
+  width: min(340px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.panel h2 {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 18px 0 8px;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.panel-head h2 {
+  margin-top: 0;
+}
+
+.log {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  min-height: 64px;
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-content: flex-start;
+}
+
+.log li {
+  font: 600 0.78rem/1 ui-monospace, Menlo, monospace;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: var(--key);
+  color: var(--key-ink);
+}
+
+.log li.second {
+  background: var(--second);
+  color: var(--second-ink);
+}
+
+.notice {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  color: #a0521f;
+}
+
+.opt {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.btn,
+.link {
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn {
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+
+.link {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  text-decoration: underline;
+  font-size: 0.82rem;
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.keys dt {
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.keys dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.foot {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.78rem;
+  padding: 8px 16px 24px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ─── large display for projection (PRD §3, job 8) ───────────────────────── */
+
+body.large {
+  --lcd-size: 3.6rem;
+}
+
+body.large .calc {
+  width: min(560px, 100%);
+}
+
+body.large .lcd-ind {
+  font-size: 0.95rem;
+  gap: 12px;
+}
+
+body.large .key {
+  height: 50px;
+  font-size: 1.15rem;
+}
+
+body.large .sec {
+  font-size: 0.8rem;
+}
+
+body.large .log li {
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .calc {
+    padding: 16px 12px 18px;
+  }
+
+  .keypad {
+    gap: 4px 6px;
+  }
+
+  body.large {
+    --lcd-size: 2.8rem;
+  }
+
+  body.large .lcd-ind {
+    font-size: 0.75rem;
+    gap: 0 8px;
+  }
+
+  body.large .key {
+    height: 44px;
+    font-size: 1rem;
+  }
+
+  body.large .sec {
+    font-size: 0.62rem;
+  }
+}
+
+/* ─── settings readout ───────────────────────────────────────────────────── */
+
+.hint {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(3, auto 1fr);
+  gap: 4px 8px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.settings dt {
+  color: var(--muted);
+}
+
+.settings dd {
+  margin: 0;
+  font-family: ui-monospace, Menlo, monospace;
+  font-weight: 600;
+}
+
+.settings dd.changed {
+  color: #a0521f;
+}
