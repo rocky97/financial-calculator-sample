@@ -42,7 +42,12 @@ npm install
 npm run dev       # the calculator at http://localhost:5173
 npm test          # vitest
 npm run typecheck
+npm run build     # static site in dist/
 ```
+
+## Deploying to GitHub Pages
+
+`.github/workflows/deploy.yml` builds, tests and publishes on every push to `master`. One-time setup: in the repository on GitHub, **Settings → Pages → Build and deployment → Source: GitHub Actions**. The site then appears at `https://<user>.github.io/<repo>/`. `vite.config.ts` uses relative asset paths so the repository name doesn't matter.
 
 ## Oracle order (PRD §7)
 
